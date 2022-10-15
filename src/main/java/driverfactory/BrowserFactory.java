@@ -12,6 +12,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 /**
  * 
  * @author knwrp
@@ -21,22 +22,24 @@ public class BrowserFactory {
 
 	public WebDriver driver;
 	Properties prop;
-    /**
-     * 
-     * this method if used for initilizing driver  
-     * @param browserName
-     * @return driver
-     */
+
+	/**
+	 * 
+	 * this method if used for initilizing driver
+	 * 
+	 * @param browserName
+	 * @return driver
+	 */
 	public WebDriver init_Driver(String browserName) {
 		if (browserName.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+			driver = WebDriverManager.chromedriver().create();
+			// new ChromeDriver();
 		} else if (browserName.equalsIgnoreCase("firefox")) {
-			WebDriverManager.chromedriver().setup();
-			driver = new FirefoxDriver();
+			driver = WebDriverManager.firefoxdriver().create();
+			// driver = new FirefoxDriver();
 		} else if (browserName.equalsIgnoreCase("edge")) {
-			WebDriverManager.chromedriver().setup();
-			driver = new EdgeDriver();
+			driver = WebDriverManager.edgedriver().create();
+			// driver = new EdgeDriver();
 		} else {
 			System.out.println("Please check the mentioned browser::" + browserName);
 		}
@@ -46,10 +49,10 @@ public class BrowserFactory {
 		return driver;
 	}
 
-	
 	/**
 	 * this method is used for reading the configuration file
-	 * @return prop reference to get properties from config file 
+	 * 
+	 * @return prop reference to get properties from config file
 	 */
 	public Properties init_prop() {
 
