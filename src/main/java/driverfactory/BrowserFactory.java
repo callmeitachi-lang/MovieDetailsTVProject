@@ -25,7 +25,7 @@ public class BrowserFactory {
 
 	/**
 	 * 
-	 * this method if used for initilizing driver
+	 * this method is used for initilizing driver
 	 * 
 	 * @param browserName
 	 * @return driver
