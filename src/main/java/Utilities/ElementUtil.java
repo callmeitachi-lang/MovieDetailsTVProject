@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -56,11 +57,44 @@ public class ElementUtil {
 		return locator;
 	}
 
-	public WebElement getElement(By locator) {
-		return driver.findElement(locator);
-
+	public String MoveToELementGetText(By Locator)
+	{
+		 WebElement getValue= getElement(Locator);
+		 Actions act=new Actions(driver);
+		  
+		 act.moveToElement(getValue).perform();
+		 flash(getValue);
+		 return getValue.getText();
+		 
+	}
+	
+	public void flash(WebElement element) {
+		String bgcolor = element.getCssValue("backgroundColor");
+		for (int i = 0; i < 15; i++) {
+			changeColor("rgb(0,200,0)", element);// 1
+			changeColor(bgcolor, element);// 2
+		}
 	}
 
+	private void changeColor(String color, WebElement element) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		js.executeScript("arguments[0].style.backgroundColor = '" + color + "'", element);
+
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+		}
+	}
+	public WebElement getElement(By locator) {
+		
+		WebElement element= driver.findElement(locator);
+         flash(element);
+		return element;
+	}
+
+	
+	
+	
 	public void doActionsSendKeys(By locator, String value) {
 		Actions act = new Actions(driver);
 		act.sendKeys(getElement(locator), value).perform();
@@ -224,67 +258,5 @@ public class ElementUtil {
 		return null;
 	}
 
-	/**
-	 * An expectation for checking the title of a page.
-	 * 
-	 * @param titleValue
-	 * @param timeOut
-	 * @return
-	 */
-	public String waitForTitleIs(String titleValue, int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
-		if (wait.until(ExpectedConditions.titleIs(titleValue))) {
-			return driver.getTitle();
-		}
-		return null;
-	}
-
-	public String waitForUrlContains(String urlFraction, int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
-		if (wait.until(ExpectedConditions.urlContains(urlFraction))) {
-			return driver.getCurrentUrl();
-		}
-		return null;
-	}
-
-	public String waitForUrlIs(String urlValue, int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
-		if (wait.until(ExpectedConditions.urlToBe(urlValue))) {
-			return driver.getCurrentUrl();
-		}
-		return null;
-	}
-
-	/**
-	 * An expectation for checking that an element is present on the DOM of a page.
-	 * This does not necessarily mean that the element is visible.
-	 * 
-	 * @param locator
-	 * @param timeOut
-	 * @return
-	 */
-	public WebElement waitForElementPresent(By locator, int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
-		return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-	}
-
-	/**
-	 * An expectation for checking that an element is present on the DOM of a page
-	 * and visible. Visibility means that the element is not only displayed but also
-	 * has a height and width that is greater than 0.
-	 * 
-	 * @param locator
-	 * @param timeOut
-	 * @return
-	 */
-	public WebElement waitForElementVisible(By locator, int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-	}
-
-	public List<WebElement> waitForElementsVisible(By locator, int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
-		return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-	}
 
 }

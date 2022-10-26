@@ -37,9 +37,13 @@ public class ImdbHomePage extends BrowserFactory {
 		prop = init_prop();
 		driver.get(prop.getProperty("imdburl"));
 		elementutil.doSendKeys(searhMovieName, movieName);
-		elementutil.clickOnElementFromSection(movieList, movieName);
-		String releaseDate = elementutil.doGetElementText(this.releaseDate).substring(0, 17);
-		String countryOrigin = elementutil.doGetElementText(this.countryOrigin).trim();
+		elementutil.doActionsSendKeys(movieList, movieName);
+		//elementutil.clickOnElementFromSection(movieList, movieName);
+		
+		//String releaseDate = elementutil.doGetElementText(this.releaseDate).substring(0, 17);		
+		String releaseDate = elementutil.MoveToELementGetText(this.releaseDate).substring(0, 17);		
+		//String countryOrigin = elementutil.doGetElementText(this.countryOrigin).trim();
+		String countryOrigin = elementutil.MoveToELementGetText(this.countryOrigin).trim();
 		return new ArrayList<String>(Arrays.asList(releaseDate, countryOrigin));
 
 	}

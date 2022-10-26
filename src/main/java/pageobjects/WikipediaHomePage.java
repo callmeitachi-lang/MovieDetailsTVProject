@@ -32,10 +32,13 @@ public class WikipediaHomePage extends BrowserFactory {
 		driver.get(prop.getProperty("wikiurl"));
 		elementutil.doSendKeys(searchName, movieName);
 		elementutil.doClick(searchButton);
-		String date = elementutil.doGetElementText(releaseDate);
+		
+		//String date = elementutil.doGetElementText(releaseDate);
+		String date = elementutil.MoveToELementGetText(releaseDate);
 		String values[] = date.split(" ");
 		String releaseDate = values[1].concat(" " + values[0] + "," + " " + values[2]);
-		String countryOrigin = elementutil.doGetElementText(this.countryOrigin).trim();
+		//String countryOrigin = elementutil.doGetElementText(this.countryOrigin).trim();
+		String countryOrigin = elementutil.MoveToELementGetText(this.countryOrigin).trim();
 		return new ArrayList<String>(Arrays.asList(releaseDate, countryOrigin));
 	}
 
